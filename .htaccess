@@ -3,8 +3,8 @@
 
     # If the URL starts with /mero-calendar, route to public/index.php
     RewriteCond %{REQUEST_URI} ^/mero-calendar/
-    # RewriteRule ^(.*)$ / [R=301,L][L,QSA]
-    RewriteRule ^(.*)$ /home3/joshibip/public_html/mero-calendar/public/index.php [R=301,L]
+    # RewriteRule ^(.*)$ / [R=301,L]
+    RewriteRule ^(.*)$ /home3/joshibip/public_html/mero-calendar/public/index.php [L,QSA]
     
     # General Laravel rewrite rules (for other routes)
     RewriteCond %{REQUEST_FILENAME} !-f
