@@ -1,12 +1,5 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
+RewriteEngine On
 
-    # If the URL starts with /mero-calendar, route to public/index.php
-    RewriteCond %{REQUEST_URI} ^/mero-calendar/
-    RewriteRule ^(.*)$ /home3/joshibip/public_html/mero-calendar/public/index.php [L,QSA]
-    
-    # General Laravel rewrite rules (for other routes)
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.php [L]
-</IfModule>
+# Redirect everything to the /public folder
+RewriteCond %{REQUEST_URI} !^/mero-calandar/public/
+RewriteRule ^(.*)$ public/$1 [L]
