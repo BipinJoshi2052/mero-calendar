@@ -1,5 +1,5 @@
 RewriteEngine On
 
 # Redirect everything to the /public folder
-RewriteCond %{REQUEST_URI} !^/mero-calandar/
+RewriteCond %{REQUEST_URI} !^/mero-calendar/
 RewriteRule ^(.*)$ public/$1 [L]
