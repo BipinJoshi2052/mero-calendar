@@ -1,9 +1,9 @@
 RewriteEngine On
 
 # Check if the request is for /mero-calendar
-<!-- RewriteCond %{REQUEST_URI} ^/mero-calendar($|/.*$) -->
-<!-- RewriteRule ^(.*)$ /mero-calendar/public/$1 [L] -->
+RewriteCond %{REQUEST_URI} ^/mero-calendar($|/.*$)
+RewriteRule ^(.*)$ /mero-calendar/public/$1 [L]
 
 # For other URLs, serve static HTML files as usual
-<!-- RewriteCond %{REQUEST_URI} !^/mero-calendar/
-RewriteRule ^(.*)$ public/$1 [L] -->
+RewriteCond %{REQUEST_URI} !^/mero-calendar/
+RewriteRule ^(.*)$ public/$1 [L]

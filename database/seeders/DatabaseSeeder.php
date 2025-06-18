@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             SubCategoriesTableSeeder::class,
             TransactionsTableSeeder::class,
             EventsSeeder::class,
+            UserSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 class TransactionController extends Controller
 {
     public function index()
@@ -22,11 +22,34 @@ class TransactionController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'sub_category_id' => 'nullable|exists:sub_categories,id',
             'amount' => 'required|numeric',
-            'month_value' => 'required|integer',
-            'date_value' => 'required|integer',
+            'transaction_date' => 'required|date',
         ]);
 
-        $transaction = Transaction::create($request->all());
+        // Get the raw transaction date from the request (e.g. "Thu Jun 19 2025")
+        $transactionDateStr = $request->transaction_date;
+
+        // Convert the raw date string to a Carbon instance (e.g., "Thu Jun 19 2025" -> "2025-06-19")
+        $transactionDate = Carbon::parse($transactionDateStr)->format('Y-m-d');
+        
+        // Extract the month, day, and year from the Carbon instance
+        $monthValue = Carbon::parse($transactionDateStr)->month;
+        $dateValue = Carbon::parse($transactionDateStr)->day;
+        $yearValue = Carbon::parse($transactionDateStr)->year;
+
+        // Create the transaction
+        $transaction = Transaction::create([
+            'user_id' => $request->user_id,
+            'title' => $request->title,
+            'type' => $request->type,
+            'category_id' => $request->category_id,
+            'sub_category_id' => $request->sub_category_id,
+            'amount' => $request->amount,
+            'transaction_date' => $transactionDate, // Store the formatted date (Y-m-d)
+            'month_value' => $monthValue,
+            'date_value' => $dateValue,
+            'year_value' => $yearValue,
+        ]);
+
 
         return response()->json($transaction, 201);
     }

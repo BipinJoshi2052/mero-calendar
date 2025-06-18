@@ -15,7 +15,14 @@
                         </div>
                         <div class="tab-pane" id="transactions">
                             {{-- <h3>Financial Info for Selected Date</h3> --}}
-                            <div id="infoList"></div>
+                            @guest
+                                <div id="auth-required">
+                                    <p>You need to login to see your transactions</p>
+                                </div>
+                            @endguest
+                            @auth
+                                <div id="infoList"></div>
+                            @endauth
                         </div>
                     </div>
                 </div>

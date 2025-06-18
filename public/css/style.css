@@ -605,3 +605,16 @@ footer{
         font-size: 14px;
     }
 }
+.card-header{
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+.color-white{
+    color: white;
+}
+.forgot-password-btn{
+    text-decoration: blink;
+}
+.forgot-password-btn:hover{
+    color: white;
+}
