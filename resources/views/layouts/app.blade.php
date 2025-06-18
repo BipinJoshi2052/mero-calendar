@@ -9,6 +9,7 @@
         integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="base-url" content="{{ url('/') }}">
 </head>
 
 <body>
@@ -121,6 +122,7 @@
                 const eventsData = @json(isset($data['events']) ? $data['events'] : []);
                 const transactions = @json(isset($data['transactions']) ? $data['transactions'] : []);
                 const isAuthenticated = <?php echo $isAuthenticated; ?>;
+                var baseUrl = $('meta[name="base-url"]').attr('content');
 
                 // Dummy data
                 function initializeDummyData() {
@@ -606,7 +608,7 @@
 
                     // Perform the AJAX request to store the transaction
                     $.ajax({
-                        url: '/transactions', // Assuming this route points to the store function in TransactionsController
+                        url: baseUrl + '/transactions', // Dynamically use base URL
                         method: 'POST',
                         data: {
                             user_id: 1, // You should get the actual authenticated user ID here
