@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class TransactionController extends Controller
 {
     public function index()
@@ -16,7 +18,6 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
             'title' => 'required|string|max:255',
             'type' => 'required|integer',
             'category_id' => 'nullable|exists:categories,id',
@@ -38,7 +39,7 @@ class TransactionController extends Controller
 
         // Create the transaction
         $transaction = Transaction::create([
-            'user_id' => $request->user_id,
+            'user_id' => Auth::id(),
             'title' => $request->title,
             'type' => $request->type,
             'category_id' => $request->category_id,

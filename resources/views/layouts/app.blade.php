@@ -611,7 +611,6 @@
                         url: baseUrl + '/transactions', // Dynamically use base URL
                         method: 'POST',
                         data: {
-                            user_id: 1, // You should get the actual authenticated user ID here
                             title: entry.title,
                             type: entry.type,
                             category_id: entry.category,
