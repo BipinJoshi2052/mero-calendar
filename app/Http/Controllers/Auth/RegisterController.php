@@ -93,7 +93,7 @@ class RegisterController extends Controller
         ]);
 
         // Send OTP via email
-        // Mail::to($user->email)->send(new SendOTP($otp));
+        Mail::to($user->email)->send(new SendOTP($otp));
         
         // Store email in session for later use in the OTP verification page
         Session::put('email', $user->email);
