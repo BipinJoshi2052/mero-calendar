@@ -69,12 +69,12 @@
                                 </div>
                             @endguest
                             @auth
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
-                                </a>
+                                </a> --}}
 
                                 <div id="infoList"></div>
                             @endauth
