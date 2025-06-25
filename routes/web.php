@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
@@ -25,6 +26,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Auth::routes(['verify' => true]);
 
+// Custom logout route, if necessary
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::resource('categories', CategoryController::class);
 Route::resource('sub_categories', SubCategoryController::class);
 Route::resource('transactions', TransactionController::class);

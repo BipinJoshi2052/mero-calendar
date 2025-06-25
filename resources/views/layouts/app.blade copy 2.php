@@ -12,12 +12,55 @@
     <meta name="base-url" content="{{ url('/') }}">
 </head>
 
-<body>    
+<body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Mero Calendar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {{-- <li class="nav-item"><a class="nav-link active" href="/">Home</a></li> --}}
+                    @guest
+                        <li class="nav-item"><a class="color-white nav-link" href="{{route('login')}}">Login</a></li>
+                        <li class="nav-item"><a class="color-white nav-link" href="{{route('register')}}">Register</a></li>
+                    @endguest
+                    @auth
+                        <!-- Show Logout link if the user is logged in -->
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="color-white nav-link" style="text-decoration: none;">Logout</button>
+                            </form>
+                        </li>
+                    @endauth
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page header with logo and tagline-->
+    {{-- <header class="py-5 bg-light border-bottom mb-4">
+        <div class="container">
+            <div class="text-center my-5">
+                <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+                <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
+            </div>
+        </div>
+    </header> --}}
+    
     <div class="container">
         <div class="row">
             @yield('content')
         </div>
     </div>
+    <!-- Footer-->
+    <footer class="">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Mero Calendar 2025</p>
+        </div>
+    </footer>
 
     <!-- Modal -->
     <div id="modal" class="modal">
@@ -60,15 +103,6 @@
             </form>
         </div>
     </div>
-
-            <!-- Side Navigation -->
-            <div class="sidenav" id="sidenav">
-                <a href="{{route('home')}}">Home</a>
-                <a href="{{route('transactions.index')}}">Transactions</a>
-                @auth
-                    <a href="{{route('logout')}}">Logout</a>
-                @endauth
-            </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
@@ -87,7 +121,7 @@
                 let lastClickedDate = currentDate;
                 const eventsData = @json(isset($data['events']) ? $data['events'] : []);
                 const transactions = @json(isset($data['transactions']) ? $data['transactions'] : []);
-                const isAuthenticated = '<?php echo $isAuthenticated; ?>';
+                const isAuthenticated = <?php echo $isAuthenticated; ?>;
                 var baseUrl = $('meta[name="base-url"]').attr('content');
 
                 // Dummy data
@@ -134,11 +168,132 @@
                     // console.log(calendarData)
                 }
                 function initializeDummyData2() {
-                    return;
+                    // const today = new Date();
+                    // const yesterday = new Date(today);
+                    // yesterday.setDate(yesterday.getDate() - 1);
+                    // const tomorrow = new Date(today);
+                    // tomorrow.setDate(tomorrow.getDate() + 1);
+                    // const nextWeek = new Date(today);
+                    // nextWeek.setDate(nextWeek.getDate() + 7);
+                    
+                    // Dummy events and financial data
+                    // calendarData[today.toDateString()] = [
+                    //     {
+                    //         type: 'income',
+                    //         title: 'Salary Payment',
+                    //         category: 'Salary',
+                    //         subCategory: 'Regular Salary',
+                    //         amount: '3500.00',
+                    //         date: today.toDateString()
+                    //     },
+                    //     {
+                    //         type: 'expense',
+                    //         title: 'Grocery Shopping',
+                    //         category: 'Food',
+                    //         subCategory: 'Groceries',
+                    //         amount: '120.50',
+                    //         date: today.toDateString()
+                    //     },
+                    //     {
+                    //         type: 'event',
+                    //         title: 'Team Meeting',
+                    //         category: 'Work',
+                    //         subCategory: 'Meeting',
+                    //         date: today.toDateString()
+                    //     }
+                    // ];
+                    
+                    // calendarData[yesterday.toDateString()] = [
+                    //     {
+                    //         type: 'expense',
+                    //         title: 'Gas Station',
+                    //         category: 'Transportation',
+                    //         subCategory: 'Gas',
+                    //         amount: '45.00',
+                    //         date: yesterday.toDateString()
+                    //     },
+                    //     {
+                    //         type: 'expense',
+                    //         title: 'Coffee Shop',
+                    //         category: 'Food',
+                    //         subCategory: 'Restaurants',
+                    //         amount: '8.50',
+                    //         date: yesterday.toDateString()
+                    //     },
+                    //     {
+                    //         type: 'event',
+                    //         title: 'Dentist Appointment',
+                    //         category: 'Health',
+                    //         subCategory: 'Checkup',
+                    //         date: yesterday.toDateString()
+                    //     }
+                    // ];
+                    
+                    // calendarData[tomorrow.toDateString()] = [
+                    //     {
+                    //         type: 'income',
+                    //         title: 'Freelance Project',
+                    //         category: 'Other',
+                    //         subCategory: 'Freelance',
+                    //         amount: '800.00',
+                    //         date: tomorrow.toDateString()
+                    //     },
+                    //     {
+                    //         type: 'event',
+                    //         title: 'Birthday Party',
+                    //         category: 'Personal',
+                    //         subCategory: 'Birthday',
+                    //         date: tomorrow.toDateString()
+                    //     }
+                    // ];
+                    
+                    // calendarData[nextWeek.toDateString()] = [
+                    //     {
+                    //         type: 'expense',
+                    //         title: 'Monthly Rent',
+                    //         category: 'Housing',
+                    //         subCategory: 'Rent',
+                    //         amount: '1200.00',
+                    //         date: nextWeek.toDateString()
+                    //     },
+                    //     {
+                    //         type: 'income',
+                    //         title: 'Investment Dividend',
+                    //         category: 'Investment',
+                    //         subCategory: 'Dividends',
+                    //         amount: '150.00',
+                    //         date: nextWeek.toDateString()
+                    //     },
+                    //     {
+                    //         type: 'event',
+                    //         title: 'Conference Call',
+                    //         category: 'Work',
+                    //         subCategory: 'Conference',
+                    //         date: nextWeek.toDateString()
+                    //     }
+                    // ];
+                    // console.log(calendarData)
                 }
 
                 // Category data
                 const categories = @json(isset($data['categories']) ? $data['categories'] : []);
+                // console.log(categories);
+                // const categories = {
+                //     income: {
+                //         'Salary': ['Regular Salary', 'Bonus', 'Overtime'],
+                //         'Business': ['Sales', 'Services', 'Investment'],
+                //         'Investment': ['Dividends', 'Interest', 'Capital Gains'],
+                //         'Other': ['Gift', 'Freelance', 'Misc']
+                //     },
+                //     expense: {
+                //         'Food': ['Groceries', 'Restaurants', 'Snacks'],
+                //         'Transportation': ['Gas', 'Public Transport', 'Taxi'],
+                //         'Housing': ['Rent', 'Utilities', 'Maintenance'],
+                //         'Entertainment': ['Movies', 'Games', 'Travel'],
+                //         'Healthcare': ['Medicine', 'Doctor', 'Insurance'],
+                //         'Other': ['Clothing', 'Education', 'Misc']
+                //     }
+                // };
 
                 // Initialize the application
                 $(document).ready(function() {
@@ -490,6 +645,16 @@
                             console.log('Error:', error);
                         }
                     });
+                    
+                    
+                    // Reset form
+                    // $('#entryForm')[0].reset();
+                    // $('#amountGroup').hide();
+                    // $('#entryAmount').prop('required', false);
+                    
+                    // // Update display
+                    // updateTabContent();
+                    // generateCalendar();
                 }
 
                 function navigateMonth(direction) {
@@ -513,25 +678,5 @@
                 }
             </script>
         @endif
-        <script>
-            // Get the hamburger button, sidenav, and the document elements
-            const hamburgerBtn = document.getElementById("hamburger-btn");
-            const sidenav = document.getElementById("sidenav");
-            const body = document.body;
-
-            // Toggle the sidenav on hamburger button click
-            hamburgerBtn.addEventListener("click", function(event) {
-                event.stopPropagation(); // Prevent the click from propagating to the body
-                sidenav.classList.toggle("open");
-            });
-
-            // Close the sidenav if clicking outside of it
-            body.addEventListener("click", function(event) {
-                if (sidenav.classList.contains("open") && !sidenav.contains(event.target) && !hamburgerBtn.contains(event.target)) {
-                    sidenav.classList.remove("open");
-                }
-            });
-        </script>
-        @yield('scripts')
 </html>
 

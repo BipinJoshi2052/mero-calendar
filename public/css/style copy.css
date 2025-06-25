@@ -1,3 +1,28 @@
+/*
+
+.landing-page {
+    text-align: center;
+    margin-top: 100px;
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.auth-buttons a {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.auth-buttons a:hover {
+    background-color: #0056b3;
+} */
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -17,14 +42,14 @@ body {
 .main-container{
     padding: 101px 0 130px 0;
 }
-/* .navbar{    
+.navbar{    
     background: linear-gradient(135deg, #667eea, #764ba2);
 }
 footer{
     background: linear-gradient(135deg, #667eea, #764ba2);
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
-} */
+}
 .date-controls {
     display: flex;
     justify-content: center;
@@ -62,10 +87,6 @@ footer{
 .header {
     text-align: center;
     margin-bottom: 30px;
-}
-.header a {
-    text-decoration: none;
-    flex-grow: 1;
 }
 .header h1 {
     color: #667eea;
@@ -367,9 +388,6 @@ footer{
 }
 
 @media (max-width: 768px) {
-    body{
-        padding: 10px;
-    }
     /* body {
         padding: 10px;
     } */
@@ -394,7 +412,7 @@ footer{
     }
     
     .date-selectors {
-        width: 45%;
+        width: 100%;
         order: 0;
         margin-bottom: 0;
         flex-direction: row;    
@@ -510,9 +528,6 @@ footer{
 }
 
 @media (max-width: 480px) {
-    body{
-        padding: 10px;
-    }
     .header h1 {
         font-size: 1.8em;
     }
@@ -523,7 +538,6 @@ footer{
     }
     
     .date-selectors {
-        width: 70%;
         gap: 6px;
     }
     
@@ -572,22 +586,16 @@ footer{
 }
 
 @media (max-width: 320px) {
-    body{
-        padding: 10px;
-    }
-
     .date-controls {
         gap: 5px;
     }
     
     .date-selectors {
-        width: 70%;
         gap: 4px;
     }
     
     .date-selectors select {
         min-width: 60px;
-        max-width: 75px;
         font-size: 12px;
         padding: 5px 2px;
     }
@@ -617,7 +625,6 @@ footer{
         font-size: 14px;
     }
 }
-
 .card-header{
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
@@ -630,77 +637,4 @@ footer{
 }
 .forgot-password-btn:hover{
     color: white;
-}
-/* Basic styles for the header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    color: white;
-}
-.header h1 {
-    flex-grow: 1;
-    text-align: center;
-}
-
-.hamburger {
-    font-size: 30px;
-    background-color: transparent;
-    border: none;
-    color: #705ebd;
-    cursor: pointer;
-}
-
-.sidenav {  
-    height: 100%;
-    width: 0;
-    position: fixed;
-    top: 0;
-    right: -35px; /* Slide from the right */
-    background-color: #111;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-    padding-left: 20px;
-    box-sizing: border-box;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: white;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-/* Button to close the sidenav (optional) */
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    font-size: 36px;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.sidenav.open {
-    width: 250px; /* The width of the side navigation */
-}
-.filter-btn-div{
-    display: flex;
-    gap: 5px;
-}
-
-.filter-btn{
-    padding: 6px 30px;
-}
-.filter-div{
-    gap: 10px;
 }

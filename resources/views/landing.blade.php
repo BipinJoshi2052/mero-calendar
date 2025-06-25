@@ -1,33 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-            <div class="col-lg-4 order-lg-1 order-2">
-                <div class="tabs-container">
-                    <div class="current-date" id="currentDateDisplay"></div>
-                    <div class="tabs">
-                        <button class="tab active" data-tab="events">Events</button>
-                        <button class="tab" data-tab="transactions">Transactions</button>
-                    </div>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="events">
-                            {{-- <h3>Events for Selected Date</h3> --}}
-                            <div id="eventsList"></div>
-                        </div>
-                        <div class="tab-pane" id="transactions">
-                            {{-- <h3>Financial Info for Selected Date</h3> --}}
-                            @guest
-                                <div id="auth-required">
-                                    <p>You need to login to see your transactions</p>
-                                </div>
-                            @endguest
-                            @auth
-                                <div id="infoList"></div>
-                            @endauth
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8 order-lg-2 order-1">
+
+        <div class="header">
+            <a href="{{route('home')}}"><h1>Kharcha App</h1></a> 
+
+            <!-- Hamburger Button -->
+            <button class="hamburger" id="hamburger-btn">
+                &#9776; <!-- Unicode for the hamburger icon (three bars) -->
+            </button>
+
+        </div>
+            <div class="order-lg-1 order-1">
                 <div class="date-controls">
                     <button class="nav-arrow" id="prevMonth">‹</button>
                     <div class="date-selectors">
@@ -68,6 +52,40 @@
                     </table>
                 </div>
             </div>
-        </div>
+            <div class="order-lg-2 order-2">
+                <div class="tabs-container">
+                    <div class="current-date" id="currentDateDisplay"></div>
+                    <div class="tabs">
+                        <button class="tab active" data-tab="transactions">Transactions</button>
+                        <button class="tab" data-tab="events">Events</button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="transactions">
+                            {{-- <h3>Financial Info for Selected Date</h3> --}}
+                            @guest
+                                <div id="auth-required">
+                                    <p>You need to 
+                                       <a href="{{route('login')}}">Login</a> or  <a href="{{route('register')}}">Register</a> to see your transactions</p>
+                                </div>
+                            @endguest
+                            @auth
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                </a>
+
+                                <div id="infoList"></div>
+                            @endauth
+                        </div>
+                        <div class="tab-pane " id="events">
+                            {{-- <h3>Events for Selected Date</h3> --}}
+                            <div id="eventsList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{-- </div> --}}
 
 @endsection
