@@ -40,7 +40,7 @@
                     <th>Category</th>
                     <th>Sub-Category</th>
                     <th>Amount</th>
-                    <th>Created At</th>
+                    <th>Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,6 +73,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
 
 <script>
 $(document).ready(function() {
@@ -82,6 +84,7 @@ $(document).ready(function() {
         serverSide: true,
         ordering: false,
         ajax: {
+            // url: '/transactions', // API route for fetching data
             url: '/mero-calendar/public/transactions', // API route for fetching data
             type: 'GET',
             dataSrc: 'data', // This should match the response data structure
@@ -103,7 +106,13 @@ $(document).ready(function() {
             { data: 'category.title' },
             { data: 'sub_category.title' },
             { data: 'amount' },
-            { data: 'created_at' },
+            {
+                data: 'transaction_date',
+                render: function(data, type, row) {
+                    // Use Moment.js to format the date
+                    return moment(data).format('ddd, DD MMMM, YYYY'); // Format as "Mon, 24 April, 2025"
+                }
+            }
         ],
         pageLength: 10, // Default transactions per page
         lengthMenu: [10, 25, 50, 100], // Options to change transactions per page
