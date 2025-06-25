@@ -704,3 +704,7 @@ footer{
 .filter-div{
     gap: 10px;
 }
+#transactions-table{
+    width: 100%!important;
+    overflow-x: scroll;
+}

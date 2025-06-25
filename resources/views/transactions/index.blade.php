@@ -84,8 +84,8 @@ $(document).ready(function() {
         serverSide: true,
         ordering: false,
         ajax: {
-            // url: '/transactions', // API route for fetching data
-            url: '/mero-calendar/public/transactions', // API route for fetching data
+            url: '/transactions', // API route for fetching data
+            // url: '/mero-calendar/public/transactions', // API route for fetching data
             type: 'GET',
             dataSrc: 'data', // This should match the response data structure
             data: function(d) {
