@@ -4,6 +4,7 @@
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
 
     <div class="header">
         <a href="{{route('home')}}"><h1>Kharcha App</h1></a> 
@@ -17,7 +18,7 @@
     <div class="transactions-div">
         <!-- Date Range Filter Form -->
         <form method="GET" action="{{ route('transactions.index') }}" class="mb-3">
-            <div class="form-row d-flex filter-div">
+            <div class="row d-flex filter-div">
                 <div class="col-md-3">
                     <input type="date" name="start_date" class="form-control" value="{{ request()->start_date }}">
                 </div>
