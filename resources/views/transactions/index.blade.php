@@ -162,7 +162,7 @@ $(document).ready(function() {
         serverSide: true,
         ordering: false,
         ajax: {
-            url: '/transactions', // Or the appropriate route
+            url: (window.location.hostname === 'localhost') ? '/transactions' : '/mero-calendar/public/transactions', // Switch URL based on environment
             type: 'GET',
             data: function(d) {
                 // Add selected filters to the DataTable request
