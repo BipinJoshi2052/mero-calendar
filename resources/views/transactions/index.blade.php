@@ -218,6 +218,12 @@ $(document).ready(function() {
             'excelHtml5',
             'pdfHtml5',
         ],
+        language: {
+            info: "Showing _START_ to _END_ of _TOTAL_ entries", // Customize the info text
+            infoEmpty: "Showing 0 to 0 of 0 entries", // When no data is available
+            infoFiltered: "", // Remove the filtered message
+            lengthMenu: "Show _MENU_ entries", // Page length options label
+        }
     });
     // Open calendar when user clicks anywhere in the input field (start_date and end_date)
     $('input[name="start_date"], input[name="end_date"]').on('click', function() {
