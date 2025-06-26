@@ -134,7 +134,7 @@ public function index(Request $request)
 
         // Paginate the data for the current page
         $transactions = clone $query;
-        $transactions = $query->orderby('transaction_date', 'desc')->skip($offset)->take($perPage)->get();
+        $transactions = $transactions->orderby('transaction_date', 'desc')->skip($offset)->take($perPage)->get();
 
         // Calculate totals for income (type = 1) and expense (type = 2)
         $totalIncomeQuery = clone $query;
