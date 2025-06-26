@@ -80,6 +80,7 @@ public function index(Request $request)
     $startDate = $request->input('start_date');
     $endDate = $request->input('end_date');
     $searchValue = $request->input('search_value');
+    // dd($searchValue);
     $categoryId = $request->input('category_id');
     $subCategoryId = $request->input('sub_category_id');
     

@@ -170,6 +170,7 @@ $(document).ready(function() {
                 d.end_date = $('input[name="end_date"]').val();
                 d.category_id = $('#category_id').val();
                 d.sub_category_id = $('#sub_category_id').val();
+                d.search_value = d.search.value; // Include search value for filtering
             },
             complete: function(xhr, status) {
                 var data = xhr.responseJSON; // Access the response JSON
