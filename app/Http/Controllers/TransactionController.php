@@ -2,14 +2,176 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
-    public function index(Request $request)
+
+public function index22(Request $request)
+{
+    // Fetch categories and subcategories
+    $categories = Category::all(); // Assuming you have a 'Category' model
+    $subcategories = SubCategory::all(); // Assuming you have a 'SubCategory' model
+
+    if ($request->ajax()) {
+        // Handle AJAX request for filtered data
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $categoryId = $request->input('category_id');
+        $subCategoryId = $request->input('sub_category_id');
+
+        $query = Transaction::with(['category', 'subCategory']);
+
+        // Apply filters based on date range
+        if ($startDate) {
+            $startDate = Carbon::parse($startDate)->startOfDay();
+            $query->where('created_at', '>=', $startDate);
+        }
+
+        if ($endDate) {
+            $endDate = Carbon::parse($endDate)->endOfDay();
+            $query->where('created_at', '<=', $endDate);
+        }
+
+        // Apply category filter if available
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        // Apply subcategory filter if available
+        if ($subCategoryId) {
+            $query->where('sub_category_id', $subCategoryId);
+        }
+
+        // Pagination settings
+        $perPage = $request->input('length', 10);
+        $offset = $request->input('start', 0);
+
+        // Paginate the data
+        $transactions = $query->orderby('id', 'desc')->skip($offset)->take($perPage)->get();
+
+        return response()->json([
+            'draw' => intval($request->get('draw')),
+            'recordsTotal' => Transaction::count(),
+            'recordsFiltered' => $query->count(),
+            'data' => $transactions,
+        ]);
+    }
+
+    // Pass categories and subcategories to the view
+    return view('transactions.index', compact('categories', 'subcategories'));
+}
+public function index(Request $request)
+{
+    // Check if the user is authenticated
+    if (!auth()->check()) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    // Get the authenticated user's ID
+    $userId = auth()->id();
+    // Get input data
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+    $searchValue = $request->input('search_value');
+    $categoryId = $request->input('category_id');
+    $subCategoryId = $request->input('sub_category_id');
+    
+    // Fetch categories and subcategories
+    $categories = Category::all();
+    $subcategories = SubCategory::where('category_id',$categoryId)->get();
+
+    if ($request->ajax()) {
+
+        // Create the base query
+        $query = Transaction::with(['category', 'subCategory']);
+
+        // Apply date filters
+        if ($startDate) {
+            $startDate = Carbon::parse($startDate)->startOfDay();
+            $query->where('transaction_date', '>=', $startDate);
+        }
+
+        if ($endDate) {
+            $endDate = Carbon::parse($endDate)->endOfDay();
+            $query->where('transaction_date', '<=', $endDate);
+        }
+
+        // Apply search filter
+        if ($searchValue) {
+            $query->where(function($q) use ($searchValue) {
+                $q->where('title', 'like', '%' . $searchValue . '%');
+            });
+        }
+
+        // Apply category filter
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        // Apply subcategory filter
+        if ($subCategoryId) {
+            $query->where('sub_category_id', $subCategoryId);
+        }
+        $query->where('user_id', $userId);
+
+        // Calculate the total records (without pagination)
+        $totalRecords = Transaction::where('user_id', $userId)->count();  // Total records (unfiltered)
+        
+        // Get filtered records count (without pagination)
+        $filteredRecords = clone $query;
+        $filteredRecords = $filteredRecords->count(); // Filtered records after applied filters
+
+        // Pagination settings
+        $perPage = $request->input('length', 10);  // Default to 10 if not provided
+        $offset = $request->input('start', 0);  // Get the offset value (DataTables will send 'start')
+
+        // Paginate the data for the current page
+        $transactions = clone $query;
+        $transactions = $query->orderby('transaction_date', 'desc')->skip($offset)->take($perPage)->get();
+
+        // Calculate totals for income (type = 1) and expense (type = 2)
+        $totalIncomeQuery = clone $query;
+        $totalIncome = $totalIncomeQuery->where('type', 1)->sum('amount');
+        $totalIncomeCount = $totalIncomeQuery->where('type', 1)->count();
+
+        $totalExpenseQuery = clone $query;
+        $totalExpense = $query->where('type', 2)->sum('amount');
+        $totalExpenseCount = $query->where('type', 2)->count();
+
+
+        // Return the required structure for DataTables
+        return response()->json([
+            'draw' => intval($request->get('draw')),
+            'recordsTotal' => $totalRecords,  // Total records (unfiltered)
+            'recordsFiltered' => $filteredRecords,  // Total records (filtered)
+            'data' => $transactions,  // Data for the current page
+            'totalIncome' => $totalIncome,
+            'totalIncomeCount' => $totalIncomeCount,
+            'totalExpense' => $totalExpense,
+            'totalExpenseCount' => $totalExpenseCount,
+        ]);
+    }
+
+    return view('transactions.index', compact('categories', 'subcategories'));
+}
+
+
+
+    public function getSubcategories($categoryId)
+    {
+        $subcategories = SubCategory::where('category_id', $categoryId)->get();
+        return response()->json($subcategories);
+    }
+
+
+    public function index2(Request $request)
     {
         if ($request->ajax()) {
             $startDate = $request->input('start_date');
@@ -31,7 +193,7 @@ class TransactionController extends Controller
 
             // Paginate with offset and perPage
             $transactions = $query->orderby('id','desc')->skip($offset)->take($perPage)->get(); // Adjust pagination for custom offset
-
+            // dd($transactions);
             return response()->json([
                 'draw' => intval($request->get('draw')), // Required for DataTables to track the requests
                 'recordsTotal' => Transaction::count(), // Total records (no filtering)

@@ -31,6 +31,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::resource('categories', CategoryController::class);
 Route::resource('sub_categories', SubCategoryController::class);
 Route::resource('transactions', TransactionController::class);
+Route::get('/get-subcategories/{category_id}', [TransactionController::class, 'getSubcategories']);
+
 
 Route::middleware('guest')->group(function () {
     // OTP routes

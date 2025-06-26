@@ -11,7 +11,7 @@
             </button>
 
         </div>
-            <div class="order-lg-1 order-1">
+            <div class="main-calendar-div order-lg-1 order-1">
                 <div class="date-controls">
                     <button class="nav-arrow" id="prevMonth">‹</button>
                     <div class="date-selectors">
