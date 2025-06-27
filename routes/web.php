@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\SuggestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::get('/', function () {
 //     return view('landing');
 // })->name('home');
+
+Route::post('/feedback', [SuggestionController::class, 'store'])->name('feedback');
 
 Auth::routes(['verify' => true]);
 

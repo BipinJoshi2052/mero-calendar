@@ -11,6 +11,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ url('/') }}">
 	<link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+
     <script>
         var baseUrl = '/';
         if(window.location.hostname != 'localhost'){
@@ -77,9 +79,32 @@
         </div>
     </div>
 
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Entry</h2>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <form class="" id="feedbackForm">
+                @csrf
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Your Suggestion:</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button class="btn" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
             <!-- Side Navigation -->
             <div class="sidenav" id="sidenav">
                 <a href="{{route('home')}}">Home</a>
+                <a href="javascript:void(0);" id="feedback-modal-link">Feedback</a>
                 @auth
                     <a href="{{route('transactions.index')}}">Transactions</a>
                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -94,9 +119,8 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <?php 
             $isAuthenticated = Auth::check() ? 1 : 0;
         ?>
@@ -535,6 +559,7 @@
                 }
             </script>
         @endif
+
         <script>
             // Get the hamburger button, sidenav, and the document elements
             const hamburgerBtn = document.getElementById("hamburger-btn");
@@ -557,6 +582,62 @@
                     hamburgerBtn.classList.remove("active");
                 }
             });
+        </script>
+        <script>
+            // Get modal, link, close button, and form elements
+            const modal = document.getElementById("feedback-modal");
+            const feedbackLink = document.getElementById("feedback-modal-link");
+            const closeModal = document.getElementById("closeModal");
+            const feedbackForm = document.getElementById("feedbackForm");
+
+            // Open the modal when the feedback link is clicked
+            feedbackLink.onclick = function() {
+                // modal.addClass('show');
+                $('#feedback-modal').addClass('show').show();
+                modal.style.display = "block";
+            };
+
+            // Close the modal when the close button is clicked
+            closeModal.onclick = function() {
+                modal.style.display = "none";
+                modal.removeClass('show');
+                setTimeout(() => modal.hide(), 300);
+            };
+
+            // Close the modal if the user clicks outside the modal content
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
+
+            // Submit the form via AJAX when it's submitted
+            feedbackForm.onsubmit = function(event) {
+                event.preventDefault();  // Prevent form submission
+
+                // Prepare the form data
+                const formData = new FormData(feedbackForm);
+
+                // Submit the form data using AJAX
+                $.ajax({
+                    url: '{{ route('feedback') }}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            toastr.success(response.message);  // Show success toastr message
+                        } else {
+                            toastr.error(response.message);  // Show error toastr message
+                        }
+                        modal.style.display = "none";  // Close the modal after submission
+                    },
+                    error: function() {
+                        toastr.error('Something went wrong, please try again!');  // Show error toastr if AJAX fails
+                    }
+                });
+            };
         </script>
         @yield('scripts')
 </html>

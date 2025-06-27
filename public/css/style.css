@@ -274,7 +274,7 @@ footer{
 .modal-content {
     background: white;
     margin: 5% auto;
-    padding: 30px;
+    padding: 5px;
     border-radius: 15px;
     width: 90%;
     max-width: 500px;
@@ -282,6 +282,9 @@ footer{
     transform: scale(0.7);
     opacity: 0;
     transition: all 0.3s ease;
+}
+.modal-content form{
+    padding: 5px;
 }
 
 .modal.show .modal-content {
@@ -294,17 +297,21 @@ footer{
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding-bottom: 15px;
+    padding: 10px;
     border-bottom: 2px solid #eee;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .modal-header h2 {
-    color: #667eea;
+    /* color: #667eea; */
     margin: 0;
 }
 
 .close {
-    color: #aaa;
+    /* color: #aaa; */
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
@@ -752,4 +759,13 @@ footer{
     text-align: center;
     font-weight: bold;
     font-size: 18px;
+}
+
+#feedbackForm textarea{
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
 }
