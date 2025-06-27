@@ -2,15 +2,6 @@
 
 @section('content')
 
-        <div class="header">
-            <a href="{{route('home')}}"><h1>Kharcha App</h1></a> 
-
-            <!-- Hamburger Button -->
-            <button class="hamburger" id="hamburger-btn">
-                &#9776; <!-- Unicode for the hamburger icon (three bars) -->
-            </button>
-
-        </div>
             <div class="main-calendar-div order-lg-1 order-1">
                 <div class="date-controls">
                     <button class="nav-arrow" id="prevMonth">‹</button>

@@ -6,15 +6,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
 
-    <div class="header">
-        <a href="{{route('home')}}"><h1>Kharcha App</h1></a> 
-
-        <!-- Hamburger Button -->
-        <button class="hamburger" id="hamburger-btn">
-            &#9776; <!-- Unicode for the hamburger icon (three bars) -->
-        </button>
-
-    </div>
     <div class="transactions-div">
         <div id="info-message">
             <!-- Information about income and expense will be populated here -->
@@ -162,7 +153,8 @@ $(document).ready(function() {
         serverSide: true,
         ordering: false,
         ajax: {
-            url: (window.location.hostname === 'localhost') ? '/transactions' : '/mero-calendar/public/transactions', // Switch URL based on environment
+            url: baseUrl + 'transactions',
+            // url: (window.location.hostname === 'localhost') ? '/transactions' : '/mero-calendar/public/transactions', // Switch URL based on environment
             type: 'GET',
             data: function(d) {
                 // Add selected filters to the DataTable request

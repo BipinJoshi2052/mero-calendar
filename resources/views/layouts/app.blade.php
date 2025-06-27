@@ -10,12 +10,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ url('/') }}">
-		<link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
+	<link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
+    <script>
+        var baseUrl = '/';
+        if(window.location.hostname != 'localhost'){
+            baseUrl = '/mero-calendar/public/';
+        }
+    </script>
 </head>
 
 <body>    
     <div class="container">
         <div class="row">
+            <div class="header">
+                <a href="{{route('home')}}"><h1>Kharcha App</h1></a> 
+
+                <!-- Hamburger Button -->
+                <button class="hamburger" id="hamburger-btn">
+                    &#9776; <!-- Unicode for the hamburger icon (three bars) -->
+                </button>
+
+            </div>
             @yield('content')
         </div>
     </div>
@@ -530,12 +545,16 @@
             hamburgerBtn.addEventListener("click", function(event) {
                 event.stopPropagation(); // Prevent the click from propagating to the body
                 sidenav.classList.toggle("open");
+
+                // Toggle the active class to add animation on button
+                hamburgerBtn.classList.toggle("active");
             });
 
             // Close the sidenav if clicking outside of it
             body.addEventListener("click", function(event) {
                 if (sidenav.classList.contains("open") && !sidenav.contains(event.target) && !hamburgerBtn.contains(event.target)) {
                     sidenav.classList.remove("open");
+                    hamburgerBtn.classList.remove("active");
                 }
             });
         </script>
