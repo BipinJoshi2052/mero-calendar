@@ -137,7 +137,8 @@
                 let lastClickedDate = currentDate;
                 const eventsData = @json(isset($data['events']) ? $data['events'] : []);
                 const transactions = @json(isset($data['transactions']) ? $data['transactions'] : []);
-                const isAuthenticated = '<?php echo $isAuthenticated; ?>';
+                var isAuthenticated = '<?php echo $isAuthenticated; ?>';
+                // console.log(isAuthenticated)
                 var baseUrl = $('meta[name="base-url"]').attr('content');
 
                 // Dummy data
@@ -274,7 +275,7 @@
 
                 function hasDataForDate(date) {
                     const dateKey = date.toDateString();
-                    console.log(calendarData[dateKey])
+                    // console.log(calendarData[dateKey])
                     return calendarData[dateKey] && calendarData[dateKey].length > 0;
                 }
 
@@ -382,8 +383,9 @@
                         // Check if this is the same date clicked again
                         if (lastClickedDate && lastClickedDate.toDateString() === clickedDate.toDateString()) {
                             // Second click - open modal
-
-                            if (isAuthenticated === 0) {
+                            // console.log(isAuthenticated)
+                            if (isAuthenticated == 0) {
+                                toastr.error('Please login to add transactions');
                                 return;
                             }
                             selectedDate = clickedDate;
