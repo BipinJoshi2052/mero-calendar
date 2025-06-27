@@ -82,7 +82,7 @@
     <div id="feedback-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Add Entry</h2>
+                <h2>Give Feedback</h2>
                 <span class="close" id="closeModal">&times;</span>
             </div>
             <form class="" id="feedbackForm">
@@ -274,6 +274,7 @@
 
                 function hasDataForDate(date) {
                     const dateKey = date.toDateString();
+                    console.log(calendarData[dateKey])
                     return calendarData[dateKey] && calendarData[dateKey].length > 0;
                 }
 

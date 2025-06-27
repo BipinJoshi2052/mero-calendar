@@ -274,8 +274,8 @@ footer{
 .modal-content {
     background: white;
     margin: 5% auto;
-    padding: 5px;
-    border-radius: 15px;
+    /* padding: 5px;
+    border-radius: 15px; */
     width: 90%;
     max-width: 500px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -284,7 +284,7 @@ footer{
     transition: all 0.3s ease;
 }
 .modal-content form{
-    padding: 5px;
+    padding: 10px;
 }
 
 .modal.show .modal-content {
@@ -296,7 +296,7 @@ footer{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     padding: 10px;
     border-bottom: 2px solid #eee;
     background: linear-gradient(135deg, #667eea, #764ba2);
@@ -581,6 +581,9 @@ footer{
         padding: 10px;
         font-size: 13px;
     }
+    #transactions-table th:last-child {
+        width: 50px!important;
+    }
 }
 
 @media (max-width: 320px) {
@@ -628,6 +631,11 @@ footer{
     .current-date {
         font-size: 14px;
     }
+
+    #transactions-table th:last-child {
+        width: 50px;
+    }
+
 }
 
 .card-header{
@@ -749,6 +757,7 @@ footer{
 }
 #transactions-table{
     width: 100%!important;
+    overflow: hidden;
     overflow-x: scroll;
     padding-top: 5px;
 }
@@ -769,3 +778,6 @@ footer{
     font-size: 14px;
     transition: border-color 0.3s ease;
 }
+/* #transactions-table_wrapper{
+    overflow: hidden;
+} */
