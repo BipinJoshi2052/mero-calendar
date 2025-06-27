@@ -101,6 +101,14 @@
 
 <script>
 $(document).ready(function() {
+    document.addEventListener('DOMContentLoaded', function () {
+        const startDateInput = document.getElementById('start_date');
+        const endDateInput = document.getElementById('end_date');
+
+        // Set default date format as placeholder in case it's supported
+        if (!startDateInput.value) startDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
+        if (!endDateInput.value) endDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
+    }); 
      // Initialize the DataTable
   $('#transactions-table1').DataTable({
         processing: true,
