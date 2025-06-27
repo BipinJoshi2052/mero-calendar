@@ -25,7 +25,8 @@
     <div class="container">
         <div class="row">
             <div class="header">
-                <a href="{{route('home')}}"><h1>Kharcha App</h1></a> 
+                {{-- <a href="{{route('home')}}"><h1>Kharcha App</h1></a>  --}}
+                <h1><a href="{{route('home')}}">Kharcha App</a></h1>
 
                 <!-- Hamburger Button -->
                 <button class="hamburger" id="hamburger-btn">
