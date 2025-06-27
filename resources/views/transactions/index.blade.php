@@ -20,10 +20,10 @@
         <form method="GET" action="{{ route('transactions.index') }}" class="mb-3">
             <div class="row d-flex filter-div">
                 <div class="col-md-2">
-                    <input type="date" placeholder="Select Date" name="start_date" class="form-control" value="{{ request()->start_date }}">
+                    <input type="date" placeholder="Select Date" id="start_date" name="start_date" class="form-control" value="{{ request()->start_date }}">
                 </div>
                 <div class="col-md-2">
-                    <input type="date" placeholder="Select Date" name="end_date" class="form-control" value="{{ request()->end_date }}">
+                    <input type="date" placeholder="Select Date" id="end_date" name="end_date" class="form-control" value="{{ request()->end_date }}">
                 </div>
                 <!-- Category Filter -->
                 <div class="col-md-3">
@@ -101,14 +101,15 @@
 
 <script>
 $(document).ready(function() {
-    document.addEventListener('DOMContentLoaded', function () {
-        const startDateInput = document.getElementById('start_date');
-        const endDateInput = document.getElementById('end_date');
+    // document.addEventListener('DOMContentLoaded', function () {
+        // console.log('hjere')
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
 
-        // Set default date format as placeholder in case it's supported
-        if (!startDateInput.value) startDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
-        if (!endDateInput.value) endDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
-    }); 
+    // Set default date format as placeholder in case it's supported
+    if (!startDateInput.value) startDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
+    if (!endDateInput.value) endDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
+    // }); 
      // Initialize the DataTable
   $('#transactions-table1').DataTable({
         processing: true,
