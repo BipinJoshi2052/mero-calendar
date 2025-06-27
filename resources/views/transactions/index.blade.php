@@ -261,7 +261,7 @@ $(document).ready(function() {
             // Make an AJAX request to get subcategories related to the selected category
             $.ajax({
                 url: (window.location.hostname === 'localhost') ? ('/get-subcategories/' + categoryId) : ('/mero-calendar/public/get-subcategories/' + categoryId),
-                url: '/get-subcategories/' + categoryId,
+                // url: '/get-subcategories/' + categoryId,
                 type: 'GET',
                 success: function(data) {
                     console.log(data)
