@@ -20,10 +20,10 @@
         <form method="GET" action="{{ route('transactions.index') }}" class="mb-3">
             <div class="row d-flex filter-div">
                 <div class="col-md-2">
-                    <input type="date" name="start_date" class="form-control" value="{{ request()->start_date }}">
+                    <input type="date" placeholder="Select Date" name="start_date" class="form-control" value="{{ request()->start_date }}">
                 </div>
                 <div class="col-md-2">
-                    <input type="date" name="end_date" class="form-control" value="{{ request()->end_date }}">
+                    <input type="date" placeholder="Select Date" name="end_date" class="form-control" value="{{ request()->end_date }}">
                 </div>
                 <!-- Category Filter -->
                 <div class="col-md-3">
