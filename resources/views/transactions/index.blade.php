@@ -18,7 +18,6 @@
 .dataTables_wrapper .dataTables_paginate {
     position: sticky;
     top: 0;
-    background-color: #fff; /* To keep the background white when scrolled */
     z-index: 100; /* Ensure it stays above the table */
     padding: 10px;
 }
@@ -47,7 +46,7 @@
                         value="{{ request()->end_date }}">
                 </div>
                 <!-- Category Filter -->
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <select name="category_id" id="category_id" class="form-control">
                         <option value="">Select Category</option>
                         @foreach ($categories as $category)
@@ -70,9 +69,15 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2 filter-btn-div">
-                    <button type="submit" class="btn btn-primary filter-btn">Filter</button>
-                    <a href="{{ route('transactions.index') }}" class="btn btn-secondary ml-2 filter-btn">Reset</a>
+                <div class="col-md-4 filter-btn-div">
+                    <button type="submit" class="btn btn-primary filter-btn">
+                        <i class="fa fa-filter"></i>
+                        Filter
+                    </button>
+                    <a href="{{ route('transactions.index') }}" class="btn btn-secondary ml-2 filter-btn">
+                        <i class="fa fa-redo"></i>
+                        Reset
+                    </a>
                 </div>
             </div>
         </form>
