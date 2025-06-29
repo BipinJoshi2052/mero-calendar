@@ -52,7 +52,7 @@
                     <select name="type" id="entryType" required>
                         <option value="">Select Type</option>
                         <option value="1">Income</option>
-                        <option value="2">Expense</option>
+                        <option value="0">Expense</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -112,6 +112,7 @@
                 @endguest
                 @auth
                     <a href="{{route('transactions.index')}}">Transactions</a>
+                    {{-- <a href="{{ route('analytics.index') }}">Analytics</a> --}}
                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>

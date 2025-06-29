@@ -243,7 +243,7 @@
                                 icon =
                                 '<i class="fa fa-arrow-up" style="color: green;"></i>'; // Green up arrow for income
                                 color = 'green';
-                            } else if (row.type === 2) {
+                            } else if (row.type === 0) {
                                 icon =
                                 '<i class="fa fa-arrow-down" style="color: red;"></i>'; // Red down arrow for expense
                                 color = 'red';
