@@ -1,8 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<style> 
+    #doughnutChart{
+        max-width: 500px;
+        max-height: 500px;
+    }
+    .doughnutChart{
+        text-align: center;
+    }
+</style>
 <div class="container">
-    <h2>User Analytics</h2>
 
     <form method="GET" action="{{ route('analytics.index') }}" class="mb-4 row">
         <div class="col-md-3">
@@ -25,7 +33,7 @@
             <input type="date" name="to" class="form-control" value="{{ $to }}" />
         </div>
 
-        <div class="col-md-3 d-flex align-items-end">
+        <div class="col-md-3 filter-btn-div align-items-end">
             <button type="submit" class="btn btn-primary mr-2">
                 <i class="fa fa-filter"></i> Filter
             </button>
@@ -40,7 +48,9 @@
     @endif
 
     @if($doughnutData)
-        <canvas id="doughnutChart" height="100"></canvas>
+        <div class="row doughnutChart">
+            <canvas id="doughnutChart" height="100"></canvas>
+        </div>
     @endif
 </div>
 @endsection

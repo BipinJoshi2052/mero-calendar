@@ -173,13 +173,16 @@ class TransactionController extends Controller
 
         $query = Transaction::with('category')
             ->where('user_id', $userId)
-            ->whereBetween('transaction_date', [$from, $to]);
+            ->whereBetween('transaction_date', [$from, $to])
+            ->orderBy('transaction_date','asc');
 
         $chartData = [];
         $doughnutData = [];
+        //     $typeVal = $type === 'income' ? 1 : 0;
+        // dd($query->where('type', $typeVal)->get()->toArray());
 
         if ($type === 'income' || $type === 'expense') {
-            $typeVal = $type === 'income' ? 1 : 2;
+            $typeVal = $type === 'income' ? 1 : 0;
 
             $chartData = $query->where('type', $typeVal)
                 ->get()
@@ -190,11 +193,11 @@ class TransactionController extends Controller
                 ->map(function ($group) {
                     return $group->sum('amount');
                 });
-        dd($chartData);
         }
+        // dd($chartData);
 
         if ($type === 'category') {
-            $doughnutData = $query->where('type', 2) // only expenses
+            $doughnutData = $query->where('type', 0) // only expenses
                 ->get()
                 ->groupBy('category.title')
                 ->map(function ($group) {

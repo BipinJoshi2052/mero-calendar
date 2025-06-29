@@ -112,7 +112,7 @@
                 @endguest
                 @auth
                     <a href="{{route('transactions.index')}}">Transactions</a>
-                    {{-- <a href="{{ route('analytics.index') }}">Analytics</a> --}}
+                    <a href="{{ route('analytics.index') }}">Analytics</a>
                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>

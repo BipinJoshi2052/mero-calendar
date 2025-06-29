@@ -22,6 +22,7 @@
     padding: 10px;
 }
 </style>
+<div class="container">
     <div class="transactions-div">
         <div id="info-message">
             <!-- Information about income and expense will be populated here -->
@@ -114,6 +115,7 @@
                 {{ $transactions->links() }}
             </div> --}}
 
+    </div>
     </div>
 @endsection
 
