@@ -1,27 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
-<style>
-    /* Make the table scrollable horizontally */
-.dataTables-wrapper {
-    overflow-x: auto;
-}
+    @section('styles')
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <style>
+            /* Make the table scrollable horizontally */
+            .dataTables-wrapper {
+                overflow-x: auto;
+            }
 
-/* Fix DataTable buttons and search bar */
-.dataTables_wrapper .dataTables_filter,
-.dataTables_wrapper .dataTables_length,
-.dataTables_wrapper .dataTables_info,
-.dataTables_wrapper .dataTables_paginate {
-    position: sticky;
-    top: 0;
-    z-index: 100; /* Ensure it stays above the table */
-    padding: 10px;
-}
-</style>
+            /* Fix DataTable buttons and search bar */
+            .dataTables_wrapper .dataTables_filter,
+            .dataTables_wrapper .dataTables_length,
+            .dataTables_wrapper .dataTables_info,
+            .dataTables_wrapper .dataTables_paginate {
+                position: sticky;
+                top: 0;
+                z-index: 100; /* Ensure it stays above the table */
+                padding: 10px;
+            }
+        </style>
+    @endsection
+
+<?php
+    use Carbon\Carbon;
+    // echo request('from');
+?>
 <div class="container">
     <div class="transactions-div">
         <div id="info-message">
@@ -38,16 +46,6 @@
         <!-- Date Range Filter Form -->
         <form method="GET" action="{{ route('transactions.index') }}" class="mb-4 row filter-div">
             {{-- <div class="row d-flex filter-div"> --}}
-                <div class="col-md-2">
-                    <label>From Date</label>
-                    <input type="date" placeholder="Select Date" id="start_date" name="start_date" class="form-control"
-                        value="{{ request()->start_date }}">
-                </div>
-                <div class="col-md-2">
-                    <label>To Date</label>
-                    <input type="date" placeholder="Select Date" id="end_date" name="end_date" class="form-control"
-                        value="{{ request()->end_date }}">
-                </div>
                 <!-- Category Filter -->
                 <div class="col-md-2">
                     <label>Category</label>
@@ -74,7 +72,26 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-4 filter-btn-div align-items-end">
+                <div class="col-md-5">
+                    <label>Date Range</label>
+                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span>{{ request('start_date', Carbon::now()->subDays(15)->format('Y-m-d')) }} - {{ request('end_date', Carbon::now()->format('Y-m-d')) }}</span> <i class="fa fa-caret-down"></i>
+                    </div>
+                    <input type="hidden" name="start_date" id="start-date" value="{{ request('start_date', Carbon::now()->subDays(15)->format('Y-m-d')) }}">
+                    <input type="hidden" name="end_date" id="end-date" value="{{ request('end_date', Carbon::now()->format('Y-m-d')) }}">
+                </div>
+                {{-- <div class="col-md-2">
+                    <label>From Date</label>
+                    <input type="date" placeholder="Select Date" id="start_date" name="start_date" class="form-control"
+                        value="{{ request()->start_date }}">
+                </div>
+                <div class="col-md-2">
+                    <label>To Date</label>
+                    <input type="date" placeholder="Select Date" id="end_date" name="end_date" class="form-control"
+                        value="{{ request()->end_date }}">
+                </div> --}}
+                <div class="col-md-3 filter-btn-div align-items-end">
                     <button type="submit" class="btn btn-primary filter-btn">
                         <i class="fa fa-filter"></i>
                         Filter
@@ -131,19 +148,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> --}}
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 
     <script>
         $(document).ready(function() {
+            $(function() {
+                // Get the 'from' and 'to' date values from the query parameters
+                var urlParams = new URLSearchParams(window.location.search);
+                var start = urlParams.get('start_date') ? moment(urlParams.get('start_date')) : moment().subtract(15, 'days');
+                var end = urlParams.get('end_date') ? moment(urlParams.get('end_date')) : moment();
+
+                function cb(start, end) {
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                    $('#start-date').val(start.format('YYYY-MM-DD'));
+                    $('#end-date').val(end.format('YYYY-MM-DD'));
+                }
+
+                $('#reportrange').daterangepicker({
+                    startDate: start,
+                    endDate: end,
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 15 Days': [moment().subtract(15, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    }
+                }, cb);
+
+                cb(start, end);
+            });
             // document.addEventListener('DOMContentLoaded', function () {
             // console.log('hjere')
-            const startDateInput = document.getElementById('start_date');
-            const endDateInput = document.getElementById('end_date');
+            // const startDateInput = document.getElementById('start_date');
+            // const endDateInput = document.getElementById('end_date');
 
             // Set default date format as placeholder in case it's supported
-            if (!startDateInput.value) startDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
-            if (!endDateInput.value) endDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
+            // if (!startDateInput.value) startDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
+            // if (!endDateInput.value) endDateInput.setAttribute('placeholder', 'DD/MM/YYYY');
             // }); 
             // Initialize the DataTable
             $('#transactions-table1').DataTable({

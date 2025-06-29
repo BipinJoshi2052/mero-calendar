@@ -12,13 +12,14 @@
     <meta name="base-url" content="{{ url('/') }}">
 	<link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
-
+    @yield('styles')
     <script>
         var baseUrl = '/';
         if(window.location.hostname != 'localhost'){
             baseUrl = '/mero-calendar/public/';
         }
     </script>
+
 </head>
 
 <body>    

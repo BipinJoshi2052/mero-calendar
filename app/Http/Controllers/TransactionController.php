@@ -78,10 +78,12 @@ class TransactionController extends Controller
         // Get the authenticated user's ID
         $userId = auth()->id();
         // Get input data
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        // $startDate = $request->input('start_date');
+        // $endDate = $request->input('end_date');
+        $startDate = $request->input('start_date', Carbon::now()->subDays(15)->format('Y-m-d'));
+        $endDate = $request->input('end_date', Carbon::now()->format('Y-m-d'));
         $searchValue = $request->input('search_value');
-        // dd($searchValue);
+        // dd($startDate);
         $categoryId = $request->input('category_id');
         $subCategoryId = $request->input('sub_category_id');
         
@@ -167,7 +169,7 @@ class TransactionController extends Controller
     public function analytics(Request $request)
     {
         $userId = Auth::id();
-        $type = $request->input('type'); // income or expense or category
+        $type = $request->input('type', 'expense');
         $from = $request->input('from', Carbon::now()->subDays(15)->format('Y-m-d'));
         $to = $request->input('to', Carbon::now()->format('Y-m-d'));
 
