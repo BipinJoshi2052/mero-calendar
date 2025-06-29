@@ -32,12 +32,16 @@ Auth::routes(['verify' => true]);
 // Custom logout route, if necessary
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::resource('categories', CategoryController::class);
-Route::resource('sub_categories', SubCategoryController::class);
-Route::resource('transactions', TransactionController::class);
 
-Route::get('/analytics', [TransactionController::class, 'analytics'])->name('analytics.index');
-Route::get('/get-subcategories/{category_id}', [TransactionController::class, 'getSubcategories']);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/analytics', [TransactionController::class, 'analytics'])->name('analytics.index');
+    Route::get('/get-subcategories/{category_id}', [TransactionController::class, 'getSubcategories']);
+    Route::resource('transactions', TransactionController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('sub_categories', SubCategoryController::class);
+});
+
 
 
 Route::middleware('guest')->group(function () {
@@ -46,9 +50,9 @@ Route::middleware('guest')->group(function () {
     Route::post('otp/verify', [RegisterController::class, 'verifyOtp']);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware('auth')->name('dashboard');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

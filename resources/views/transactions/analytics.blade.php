@@ -9,14 +9,32 @@
     .doughnutChart{
         text-align: center;
     }
+    .chart-container {
+        position: relative;
+        width: 100%;
+        height: 400px; /* Adjust height as per requirement */
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+    
+
+
+    @media (max-width: 768px) {
+        .chart-container {
+            height: 300px; /* You can increase the height on mobile if needed */
+        }
+        .chart-container canvas {
+            width: 500px !important; /* Make canvas take the full width */
+            height: 275px !important; /* Maintain the aspect ratio */
+        }
+    }
 </style>
 <div class="container">
 
-    <form method="GET" action="{{ route('analytics.index') }}" class="mb-4 row">
+    <form method="GET" action="{{ route('analytics.index') }}" class="mb-4 row filter-div">
         <div class="col-md-3">
             <label>Type</label>
             <select name="type" class="form-control">
-                <option value="">Select</option>
+                <option value="">Select Type</option>
                 <option value="income" {{ request('type') == 'income' ? 'selected' : '' }}>Income</option>
                 <option value="expense" {{ request('type') == 'expense' ? 'selected' : '' }}>Expense</option>
                 <option value="category" {{ request('type') == 'category' ? 'selected' : '' }}>Category</option>
@@ -44,7 +62,11 @@
     </form>
 
     @if($chartData)
-        <canvas id="lineChart" height="100"></canvas>
+        <div class="row lineChart">
+            <div class="chart-container">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
     @endif
 
     @if($doughnutData)

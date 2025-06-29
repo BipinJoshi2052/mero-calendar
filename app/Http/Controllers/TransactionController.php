@@ -202,7 +202,7 @@ class TransactionController extends Controller
                 ->groupBy('category.title')
                 ->map(function ($group) {
                     return $group->sum('amount');
-                });
+                })->sortDesc();
         }
 
         return view('transactions.analytics', compact('type', 'from', 'to', 'chartData', 'doughnutData'));

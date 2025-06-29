@@ -377,6 +377,9 @@ footer{
     body{
         padding: 10px;
     }
+    .filter-div {
+        gap: 10px;
+    }
     /* body {
         padding: 10px;
     } */
@@ -750,10 +753,7 @@ footer{
 }
 
 .filter-btn{
-    padding: 6px 30px;
-}
-.filter-div{
-    /* gap: 10px; */
+    /* padding: 6px 30px; */
 }
 #transactions-table{
     width: 100%!important;

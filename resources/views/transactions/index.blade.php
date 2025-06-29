@@ -36,18 +36,21 @@
             </p>
         </div>
         <!-- Date Range Filter Form -->
-        <form method="GET" action="{{ route('transactions.index') }}" class="mb-3">
-            <div class="row d-flex filter-div">
+        <form method="GET" action="{{ route('transactions.index') }}" class="mb-4 row filter-div">
+            {{-- <div class="row d-flex filter-div"> --}}
                 <div class="col-md-2">
+                    <label>From Date</label>
                     <input type="date" placeholder="Select Date" id="start_date" name="start_date" class="form-control"
                         value="{{ request()->start_date }}">
                 </div>
                 <div class="col-md-2">
+                    <label>To Date</label>
                     <input type="date" placeholder="Select Date" id="end_date" name="end_date" class="form-control"
                         value="{{ request()->end_date }}">
                 </div>
                 <!-- Category Filter -->
                 <div class="col-md-2">
+                    <label>Category</label>
                     <select name="category_id" id="category_id" class="form-control">
                         <option value="">Select Category</option>
                         @foreach ($categories as $category)
@@ -60,6 +63,7 @@
                 </div>
                 <!-- Subcategory Filter -->
                 <div class="col-md-2">
+                    <label>Subcategory</label>
                     <select name="sub_category_id" id="sub_category_id" class="form-control">
                         <option value="">Select Subcategory</option>
                         @foreach ($subcategories as $subcategory)
@@ -70,7 +74,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-4 filter-btn-div">
+                <div class="col-md-4 filter-btn-div align-items-end">
                     <button type="submit" class="btn btn-primary filter-btn">
                         <i class="fa fa-filter"></i>
                         Filter
@@ -80,7 +84,7 @@
                         Reset
                     </a>
                 </div>
-            </div>
+            {{-- </div> --}}
         </form>
 
         <div class="dataTables-wrapper">
