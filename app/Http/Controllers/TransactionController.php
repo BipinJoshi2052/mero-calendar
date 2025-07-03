@@ -172,6 +172,10 @@ class TransactionController extends Controller
         $type = $request->input('type', 'expense');
         $from = $request->input('from', Carbon::now()->subDays(15)->format('Y-m-d'));
         $to = $request->input('to', Carbon::now()->format('Y-m-d'));
+        $categoryId = $request->input('category', null); // Get selected category
+
+        // Fetch categories for the dropdown
+        $categories = Category::all();
 
         $query = Transaction::with('category')
             ->where('user_id', $userId)
@@ -199,15 +203,47 @@ class TransactionController extends Controller
         // dd($chartData);
 
         if ($type === 'category') {
-            $doughnutData = $query->where('type', 0) // only expenses
-                ->get()
-                ->groupBy('category.title')
-                ->map(function ($group) {
-                    return $group->sum('amount');
-                })->sortDesc();
+                if ($categoryId) {
+                    // If a category is selected, group by subcategory
+                    $doughnutData = $query->where('type', 0) // Only expenses
+                        ->where('category_id', $categoryId) // Filter by category if selected
+                        ->get()
+                        ->groupBy('subcategory.title') // Group by subcategory title
+                        ->map(function ($group) {
+                            return $group->sum('amount');
+                        })->sortDesc();
+                        // dd($doughnutData);
+                } else {
+                    // If no category is selected, group by category
+                    $doughnutData = $query->where('type', 0) // Only expenses
+                        ->get()
+                        ->groupBy('category.title') // Group by category title
+                        ->map(function ($group) {
+                            return $group->sum('amount');
+                        })->sortDesc();
+                }
+            // $doughnutData = $query->where('type', 0) // only expenses
+            //     ->get()
+            //     ->groupBy('category.title')
+            //     ->map(function ($group) {
+            //         return $group->sum('amount');
+            //     })->sortDesc();
+             // Filter transactions based on category
+            // $doughnutData = $query->where('type', 0) // Only expenses
+            //     ->where(function ($q) use ($categoryId) {
+            //         if ($categoryId) {
+            //             $q->where('category_id', $categoryId); // Filter by category if selected
+            //         }
+            //     })
+            //     ->get()
+            //     ->groupBy('category.title')
+            //     ->map(function ($group) {
+            //         return $group->sum('amount');
+            //     })->sortDesc();
+            //     dd($doughnutData);
         }
 
-        return view('transactions.analytics', compact('type', 'from', 'to', 'chartData', 'doughnutData'));
+        return view('transactions.analytics', compact('type', 'from', 'to', 'chartData', 'doughnutData', 'categories'));
     }
 
     public function getSubcategories($categoryId)

@@ -229,6 +229,7 @@
                 }
 
                 function generateCalendar() {
+                    console.log('object')
                     const month = parseInt($('#monthSelect').val());
                     const year = parseInt($('#yearSelect').val());
                     const today = new Date();

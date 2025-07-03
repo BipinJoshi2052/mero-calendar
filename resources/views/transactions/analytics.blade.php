@@ -36,16 +36,27 @@
 <div class="container">
 
     <form method="GET" action="{{ route('analytics.index') }}" class="mb-4 row filter-div">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label>Type</label>
-            <select name="type" class="form-control">
+            <select name="type" id="type-select" class="form-control">
                 <option value="">Select Type</option>
                 <option value="income" {{ request('type') == 'income' ? 'selected' : '' }}>Income</option>
                 <option value="expense" {{ request('type') == 'expense' ? 'selected' : (request('type') == '' ? 'selected' : '') }}>Expense</option>
                 <option value="category" {{ request('type') == 'category' ? 'selected' : '' }}>Category</option>
             </select>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-2" id="category-dropdown" style="display: none;">
+            <label>Category</label>
+            <select name="category" class="form-control">
+                <option value="">Select Category</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                        {{ $category->title }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-4">
             <label>Date Range</label>
             <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
                 <i class="fa fa-calendar"></i>&nbsp;
@@ -70,7 +81,7 @@
             <input type="date" name="to" class="form-control" value="{{ $to }}" />
         </div> --}}
 
-        <div class="col-md-3 filter-btn-div align-items-end">
+        <div class="col-md-4 filter-btn-div align-items-end">
             <button type="submit" class="btn btn-primary mr-2">
                 <i class="fa fa-filter"></i> Filter
             </button>
@@ -101,6 +112,25 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const typeSelect = document.getElementById('type-select');
+        const categoryDropdown = document.getElementById('category-dropdown');
+        
+        // Show category dropdown if 'category' type is selected
+        if (typeSelect.value === 'category') {
+            categoryDropdown.style.display = 'block';
+        }
+
+        // Add event listener for type selection change
+        typeSelect.addEventListener('change', function() {
+            if (this.value === 'category') {
+                categoryDropdown.style.display = 'block';
+            } else {
+                categoryDropdown.style.display = 'none';
+            }
+        });
+    });
+
     $(function() {
         // Get the 'from' and 'to' date values from the query parameters
         var urlParams = new URLSearchParams(window.location.search);
@@ -144,6 +174,7 @@
             }
         });
     @endif
+
 
     @if($doughnutData)
         const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');

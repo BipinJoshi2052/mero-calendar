@@ -46,18 +46,10 @@ class HelperFile
                 $categoryData['income'][] = $category;
             }
         }
-        // Organize categories and subcategories by type
-        // foreach ($categories as $category) {
-        //     $categoryType = $category->type == 1 ? 'income' : 'expense';
-        //     $subCategoryNames = $category->subCategories->pluck('title')->toArray();
-
-        //     $categoryData[$categoryType][$category->title] = $subCategoryNames;
-        // }
 
         // Fetch events for the current month
         $events = Event::where('month_value', $currentMonth)->get();
-        // ->where('date_value', $currentDay)
-        // Prepare transactions
+        
         $transactions = [];
 
         if (Auth::check()) {
