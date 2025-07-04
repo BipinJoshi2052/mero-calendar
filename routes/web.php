@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('transactions', TransactionController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('sub_categories', SubCategoryController::class);
+    Route::get('/get-calendar-data', [HomeController::class, 'getCalendarData']);
+
 });
 
 

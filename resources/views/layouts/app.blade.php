@@ -200,7 +200,7 @@
                     initializeCalendar();
                     populateYearSelect();
                     setCurrentDate();
-                    generateCalendar();
+                    generateCalendar('first');
                     updateDateDisplay();
                     bindEvents();
                 });
@@ -228,9 +228,9 @@
                     selectedDate = new Date();
                 }
 
-                function generateCalendar() {
-                    console.log('object')
-                    const month = parseInt($('#monthSelect').val());
+               function generateCalendar(load = 'first') {
+                    console.log(load)
+                    const month = parseInt($('#monthSelect').val()); // Month is 0-indexed (January = 0)
                     const year = parseInt($('#yearSelect').val());
                     const today = new Date();
                     
@@ -243,7 +243,13 @@
                     calendarBody.empty();
                     
                     let currentWeek = startDate;
+
+                    // Fetch new data for the selected month and year
+                    if(load != 'first'){
+                        fetchCalendarData(year, month);
+                    }
                     
+
                     for (let week = 0; week < 6; week++) {
                         const row = $('<tr></tr>');
                         
@@ -276,6 +282,68 @@
                         calendarBody.append(row);
                     }
                 }
+                function fetchCalendarData(year, month) {
+                    // Send an AJAX request to the server
+                    $.ajax({
+                        url: baseUrl + '/get-calendar-data',
+                        // url: '/get-calendar-data',
+                        method: 'GET',
+                        data: {
+                            year: year,
+                            month: month + 1 // Pass month as 1-indexed (January = 1)
+                        },
+                        success: function(response) {
+                            // After getting the data, update the calendar data
+                            const eventsData = response.events;
+                            const transactions = response.transactions;
+
+                            // Empty calendar data
+                            calendarData = {};
+
+                            // Add events to calendar data
+                            eventsData.forEach(event => {
+                                const eventDate = new Date(event.created_at).toISOString().split('T')[0];
+                                const dateKey = new Date(eventDate).toDateString();
+
+                                if (!calendarData[dateKey]) {
+                                    calendarData[dateKey] = [];
+                                }
+
+                                calendarData[dateKey].push({
+                                    type: 'event',
+                                    title: event.title,
+                                    date: dateKey
+                                });
+                            });
+
+                            // Add transactions to calendar data
+                            transactions.forEach(transaction => {
+                                const transactionDate = new Date(transaction.transaction_date);
+                                const dateKey = transactionDate.toDateString();
+
+                                if (!calendarData[dateKey]) {
+                                    calendarData[dateKey] = [];
+                                }
+
+                                calendarData[dateKey].push({
+                                    type: transaction.type === 1 ? 'income' : 'expense',
+                                    title: transaction.title,
+                                    category: transaction.category.title,
+                                    subCategory: transaction.sub_category.title,
+                                    amount: transaction.amount,
+                                    date: dateKey
+                                });
+                            });
+
+                            // Re-render the calendar with new data
+                            generateCalendar();
+                        },
+                        error: function(err) {
+                            console.error('Error fetching calendar data:', err);
+                        }
+                    });
+                }
+
 
                 function hasDataForDate(date) {
                     const dateKey = date.toDateString();
@@ -363,7 +431,7 @@
                 function bindEvents() {
                     // Date control changes
                     $('#monthSelect, #yearSelect').on('change', function() {
-                        generateCalendar();
+                        generateCalendar('second');
                     });
                     
                     // Navigation arrows
@@ -566,7 +634,7 @@
                     $('#monthSelect').val(currentMonth);
                     $('#yearSelect').val(currentYear);
                     
-                    generateCalendar();
+                    generateCalendar('second');
                 }
             </script>
         @endif
