@@ -54,6 +54,7 @@ class LoginController extends Controller
         // Regenerate the CSRF token
         $request->session()->regenerateToken();
 
+        return redirect('/');
         // Redirect to home page (or another page)
         // Check if the environment is development or production
         if (App::environment('local')) {
